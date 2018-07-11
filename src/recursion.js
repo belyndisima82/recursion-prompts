@@ -561,21 +561,29 @@ var letterTally = function(str, obj) {
 // compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
 var compress = function(list) {
 
-  if (list.length <= 1) {
-      return list;
-    }
+  var newArr = [];
 
-    if (list[0] === list[1]) {
-      return compress(list.splice(1));
-    } else {
-      return [list.shift()].concat(compress(list));
-    }
-};
+  if (list.length === 1) {
+    return list.slice(0);
+  }
+
+  if (list[0] === list[1]) {
+    return compress(list.slice(1));
+  }
+
+  return newArr = [list[0]].concat(compress(list.slice(1)));
+}
 
 // 33. Augument every element in a list with a new value where each element is an array
 // itself.
 // augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
 var augmentElements = function(array, aug) {
+
+  if (array.length === 1) {
+    return [array[0].concat(aug)];
+  }
+
+  return ([array[0].concat(aug)].concat(augmentElements(array.slice(1), aug)));
 };
 
 // 34. Reduce a series of zeroes to a single 0.
