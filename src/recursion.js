@@ -521,27 +521,20 @@ var nestedEvenSum = function(obj) {
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
-  let newArr = [];
 
   if (array.length === 0) {
     return [];
   }
-  array.forEach(function (element) {
+  if( array.length === 1 && !Array.isArray(array[0])) {
+    return array.shift();
+  }
+      
+  if(Array.isArray(array[0])) {
+    return flatten(array.shift().concat(array));
+  }
 
-    if (Array.isArray(element)) {
-      newArr = (flatten(element.slice(1)).concat(element[0]));
-
-      if (Array.isArray(newArr)) {
-        newArr = (flatten(newArr.slice(1).concat(newArr[0])));
-      }
-
-    } else {
-      newArr.push(element);
-    }    
-  })
-  return newArr;
+    return [array.shift()].concat(flatten(array));
 };
-
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
 var letterTally = function(str, obj) {
@@ -557,7 +550,7 @@ var letterTally = function(str, obj) {
         obj[str[0]] += 1;
 
       }
-      
+
   return letterTally(str.substr(1), obj);
 };
 
@@ -567,6 +560,16 @@ var letterTally = function(str, obj) {
 // compress([1,2,2,3,4,4,5,5,5]) // [1,2,3,4,5]
 // compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
 var compress = function(list) {
+
+  if (list.length <= 1) {
+      return list;
+    }
+
+    if (list[0] === list[1]) {
+      return compress(list.splice(1));
+    } else {
+      return [list.shift()].concat(compress(list));
+    }
 };
 
 // 33. Augument every element in a list with a new value where each element is an array
