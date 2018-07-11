@@ -626,6 +626,18 @@ var alternateSign = function(array) {
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+  var obj = {'1': 'one', '2': 'two', '3': 'three', '4': 'four', '5': 'five', 6: 'six', '7': 'seven', '8': 'eight', '9': 'nine'};
+  
+  if (str === '') {
+    return str;
+  }
+
+  if (obj[str[0]] !== undefined) {
+    return obj[str[0]] + numToText(str.substr(1));
+
+  } else {
+    return str[0] + numToText(str.substr(1));
+  }
 };
 
 
@@ -633,6 +645,7 @@ var numToText = function(str) {
 
 // 37. Return the number of times a tag occurs in the DOM.
 var tagCount = function(tag, node) {
+
 };
 
 // 38. Write a function for binary search.
@@ -640,13 +653,58 @@ var tagCount = function(tag, node) {
 // binarySearch(array, 5) // 5
 // https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
 var binarySearch = function(array, target, min, max) {
+
+  var min = min || 0;
+  var max = max || array.length -1;
+
+  if (array.indexOf(target) < 0) {
+    return null;
+  }
+ 
+  if (min <= max) {
+    var guess = Math.floor((min + max) / 2);
+
+    if (array[min] === target) {
+      return min;
+    }
+
+    if (array[guess] === target) {
+      return guess;
+
+    } else if (array[guess] < target) {
+        min = guess + 1;
+    
+      } else {
+        max = guess -1;
+        }
+    return binarySearch(array, target, min, max);
+  }
+  return null;
 };
 
 // 39. Write a merge sort function.
 // mergeSort([34,7,23,32,5,62]) // [5,7,23,32,34,62]
 // https://www.khanacademy.org/computing/computer-science/algorithms/merge-sort/a/divide-and-conquer-algorithms
 var mergeSort = function(array) {
+  
+  var lowest = array[0];
+
+  if (array.length === 0) {
+
+    return array;
+  }
+
+  if (lowest > array[1]) {
+
+    array[0] = array[1];
+    array[1] = lowest;
+    lowest = array[0];
+
+  }
+
+  return [array[0]].concat(mergeSort(array.slice(1)));
 };
+
 
 // 40. Deeply clone objects and arrays.
 // var obj1 = {a:1,b:{bb:{bbb:2}},c:3};
